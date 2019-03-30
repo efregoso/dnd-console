@@ -1,0 +1,169 @@
+<html>
+
+	<head>
+		<title>Main Page</title>
+		<link rel="spreadsheet" type="text/css" src="dndstyle.css"/>
+	</head>
+
+	<body>
+	
+		<div id="monster-container">
+			<!-- Empty until battle sequence initiated. -->
+		</div>
+	
+		<div id="stage-container">
+			<!-- Empty until battle sequence initiated. -->
+		</div>
+		
+		<div id="player-container">
+			<!-- Empty until battle sequence initiated. -->
+		</div>
+		
+		<div id="form-container">
+			<form id="specs">
+				<span>Select number of players:</span>
+				<select name="numPlayers"> 
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+				</select>
+				<br/>
+				<span>Enter player maximum health:</span> <input name="playerHealth" type="text"/>
+				<br/>
+				<span>Enter number of monsters:</span>
+				<select name="numMonsters"> 
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+				</select>
+				<br/>
+				<span>Enter monster maximum health:</span> <input name="monsterHealth" type="text"/>
+				<br/>
+				<input type="submit" name="submit" onclick="initializeBattleSequence()"/>
+			</form>
+		</div>
+
+		<script>
+		
+		function checkInput() {
+		
+			// playerHealth and monsterHealth must be integers
+			var playerHealth = document.getElementById("playerHealth").value;
+			var monsterHealth = document.getElementById("monsterHealth").value;
+			
+			if (!parseInt(playerHealth) || !parseInt(monsterHealth)) {
+				alert("Please input positive integer for player and monster health values.");
+				return false;
+			}
+			
+			return true;
+		}
+		
+		function clearPage() {
+		
+			// Get all child nodes of the body and delete them one by one
+			var bodyContents = document.body.childNodes();
+			
+			for (let i = 0; i < bodyContents.length; i++) {
+				bodyContents.removeChild(bodyContents[i]);
+			}
+		}
+				
+		function initalizeBattleSequence(int numPlayers, int playerHealth, int numMonsters, int monsterHealth) {
+		
+			// If all input valid, clear page and create battle page
+			if (checkInput()) {
+				clearPage();
+				
+				// Grab values of the selection and input elements
+				var numPlayers = document.getElementById("numPlayers");
+				var playerHealth = parseInt(document.getElementById("playerHealth").value);
+				var numMonsters = document.getElementById("numMonsters");
+				var monsterHealth = parseInt(document.getElementById("monsterHealth").value);
+				
+				// DEBUG: Pull values from these elements
+				numPlayers = parseInt(numPlayers.options[numPlayers.selectedIndex].text);
+				numMonsters = parseInt(numMonsters.options[numMonsters.selectedIndex].text);
+				
+				// Create the number of divs & progress bars in the amount of players present at the bottom of the screen.
+				var playerContainer = document.getElementById("player-container");
+				for (let i = 0; i < numPlayers; i++) {
+					var newDiv = document.createElement("DIV");
+					
+					newDiv.style.width = "10%";
+					newDiv.style.bottom = "0px";
+					newDiv.style.cssFloat = "left";
+					
+					var health = document.createElement("PROGRESS");
+					health.setAttribute("value", playerHealth);
+					
+					var img = document.createElement("IMG");
+					img.href = "";
+					
+					newDiv.appendChild(img);
+					newDiv.appendChild(health);
+					
+					playerContainer.appendChild(newDiv);
+				}
+				
+				var monsterContainer = document.getElementById("monster-container");
+				for (let i = 0; i < numMonsters; i++) {
+					var newDiv = document.createElement("DIV");
+					
+					newDiv.style.width = "10%";
+					newDiv.style.bottom = "0px";
+					newDiv.style.cssFloat = "left";
+					
+					var health = document.createElement("PROGRESS");
+					health.setAttribute("value", monsterHealth);
+					
+					var img = document.createElement("IMG");
+					img.href = "";
+					
+					newDiv.appendChild(img);
+					newDiv.appendChild(health);
+					
+					monsterContainer.appendChild(newDiv);
+				}
+				
+			}
+			
+			// If input invalid, alert.
+			else {
+				alert("Error.  Please try again later.");
+			}
+		
+		}
+		
+		function decrementHealth(var healthBar, int value) {
+			healthBar.value = healthBar.value - value;
+		}
+			
+		// Element I want to make 
+		//    A counter
+		//    Maybe even my own D20, D10, D6
+		//    Adjustable health bars
+		//        - Damage
+		//        - Healing
+		// 
+					
+		</script>
+
+	</body>
+
+
+</html>
